@@ -1,0 +1,80 @@
+<th:block th:fragment="header">
+    <!DOCTYPE html>
+    <html lang="en" data-bs-theme="dark">
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+            <!-- BOOTSTRAP 5.3.0 -->
+            <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+            <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+            <!-- BOOTSTRAP ICONS 1.10.4 -->
+            <link rel="stylesheet" th:href="@{/css/bootstrap_icons/bootstrap-icons.css}">
+            <script type="text/javascript" th:src="@{/js/jquery-3.6.4.min.js}"></script>
+            <!-- CUSTOM CSS -->
+            <link rel="stylesheet" th:href="@{/css/style.css}">
+            <!-- CUSTOM JS -->
+            <script th:src="@{/js/activeNav.js}"></script>
+        </head>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" th:href="@{/}"><i class="bi bi-person-badge-fill fs-2 me-2 text-light"></i></a>
+                    <a class="navbar-brand" th:href="@{/}">HR Employees Manager</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav1" aria-current="page" href="/">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav2" href="/addEmployee">Ajouter un employé</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav3" href="/articles">Articles</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Catégories Socio-Pro
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li th:each="elt,i:${catTable}"><a class="dropdown-item" href="#" th:text="${elt}"></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div sec:authorize="isAnonymous()">
+                            <div class="ms-auto me-2">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-success text-success-emphasis dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle"></i> Compte
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item text-center" th:href="@{/register}"><i class="bi bi-person-lines-fill"></i><br>Nouvelle inscription</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-center" th:href="@{/login}"><i class="bi bi-box-arrow-in-right"></i><br>Connexion à un compte</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <div class="ms-auto me-2">
+                                <div class="dropdown">
+                                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-fill-check"></i> <span th:text="${#authentication.getPrincipal().getFullName()}" > </span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item text-center" th:href="@{/}"><i class="bi bi-person-circle"></i><br>Accéder à mon compte</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-center" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i><br>Déconnexion</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+</th:block>

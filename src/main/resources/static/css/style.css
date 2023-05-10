@@ -1,0 +1,12 @@
+#homeHero {
+    color: #ffffff;
+    border:5px solid rgb(25, 135, 84);
+    box-shadow:0 0 15px rgb(25, 135, 84);
+    text-shadow:0 0 15px lightgray;
+    text-align:center;
+    border-radius:20px;
+    width:75vw;
+    margin:50px auto auto auto;
+    padding: 30px;
+    font-size:4rem;
+}

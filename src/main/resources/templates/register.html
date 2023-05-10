@@ -1,0 +1,36 @@
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1 class="text-center mt-5">Inscription</h1>
+<h3 class="text-center">Créez votre compte sur la plateforme</h3>
+
+<form class="w-25 mx-auto" method="post" th:action="@{/register}" th:object="${user}">
+    <div class="form-group">
+        <label for="nom" class="form-control-label">Nom</label>
+        <input type="text" class="form-control" id="nom" th:field="*{nom}" />
+        <span th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+    </div>
+    <div class="form-group">
+        <label for="prenom" class="form-control-label">Prenom</label>
+        <input type="text" class="form-control" id="prenom" th:field="*{prenom}" />
+        <span th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
+    </div>
+    <div class="form-group">
+        <label for="email" class="form-control-label">Email</label>
+        <input type="text" class="form-control" id="email" th:field="*{email}" />
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-control-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" th:field="*{password}" />
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    </div>
+    <label for="roles" class="form-control-label">Rôles et responsabilités</label>
+    <select multiple class="form-select" name="roles" id="roles">
+        <option th:each="role : ${roles}" th:text="${role.name.substring(0,1) + role.name.substring(1).toLowerCase()}" th:value="${role.id}"></option>
+    </select>
+    <div class="text-center">
+        <input type="submit" value="Je crée mon compte" class="btn btn-primary mt-3" />
+    </div>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>

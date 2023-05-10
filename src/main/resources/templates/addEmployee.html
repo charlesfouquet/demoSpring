@@ -1,0 +1,104 @@
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1 class="text-center mt-5">Ajout d'employés</h1>
+<h3 class="text-center">Consultez la liste des employés ou ajoutez-en</h3>
+
+<th:block th:if="${employeesList!=null and !employeesList.isEmpty()}">
+    <div class="text-center">Pour rappel, voici la liste des employés : </div>
+    <table th:if="${employeesList!=null and !employeesList.isEmpty()}" class="table w-25 mx-auto text-center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Edit.</th>
+                <th>Supp.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee:${employeesList}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.email}"></td>
+                <td><a th:href="@{/addEmployee/update/{id}(id = ${employee.id})}"><i class="bi bi-pencil-square text-primary"></i></a></td>
+                <td><a style="cursor:pointer;" class="delBtn" th:id="${employee.id}" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-person-dash-fill text-danger"></i></a></td>
+<!--                <td><a th:href="@{/addEmployee/delete/{id}(id = ${employee.id})}"><i class="bi bi-person-dash-fill text-danger"></i></a></td>-->
+            </tr>
+        </tbody>
+    </table>
+</th:block>
+
+<form method="post" th:object="${employee}" th:action="*{id} > 0 ? '/addEmployee/update/'+*{id} : '/addEmployee'" class="w-25 mx-auto my-4 border border-success rounded-3 p-3" id="addEmployeeForm">
+    <h3 th:text="*{id} > 0 ? 'Mise à jour d\'employé' : 'Ajout d\'employé'" class="text-center"></h3>
+    <div class="my-3 form-floating">
+        <input type="text" th:field="*{lastName}" class="form-control" id="lastName" name="lastName" placeholder="Placeholder">
+        <label for="lastName" class="form-label">Nom</label>
+        <th:block th:if="${#fields.hasErrors('lastName')}">
+            <div th:errors="*{lastName}" class="text-danger"></div>
+            <script>
+                $("#lastName").addClass("is-invalid");
+                $("#addEmployeeForm").removeClass("border-success").addClass("border-danger");
+            </script>
+        </th:block>
+    </div>
+    <div class="mb-3 form-floating">
+        <input type="text" th:field="*{firstName}" class="form-control" id="firstName" name="firstName" placeholder="Placeholder">
+        <label for="firstName" class="form-label">Prénom</label>
+        <th:block th:if="${#fields.hasErrors('firstName')}">
+            <div th:errors="*{firstName}" class="text-danger"></div>
+            <script>
+                $("#firstName").addClass("is-invalid");
+                $("#addEmployeeForm").removeClass("border-success").addClass("border-danger");
+            </script>
+        </th:block>
+    </div>
+    <div class="mb-3 form-floating">
+        <input type="email" th:field="*{email}" class="form-control" id="email" name="email" placeholder="Placeholder">
+        <label for="email" class="form-label">Adresse email</label>
+        <th:block th:if="${#fields.hasErrors('email')}">
+            <div th:errors="*{email}" class="text-danger"></div>
+            <script>
+                $("#email").addClass("is-invalid");
+                $("#addEmployeeForm").removeClass("border-success").addClass("border-danger");
+            </script>
+        </th:block>
+    </div>
+    <th:block th:if="*{id <= 0}">
+        <button type="submit" class="btn btn-success d-block mx-auto">
+            <i class="bi bi-person-plus"></i> Ajouter un employé
+        </button>
+    </th:block>
+    <th:block th:if="*{id > 0}">
+        <button type="submit" class="btn btn-warning d-block mx-auto">
+            <i class="bi bi-person-gear"></i> Mettre à jour l'employé
+        </button>
+    </th:block>
+</form>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Suppression d'un utilisateur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <a type="button" class="btn btn-outline-danger" id="linkToDelete" th:href="@{/}"><i class="bi bi-person-x"></i> Supprimer cet utilisateur</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".delBtn").on("click", function (){
+        $("#linkToDelete").attr("href", "/addEmployee/delete/" + $(this).attr("id"));
+    })
+</script>
+
+<div th:replace="~{fragments/footer :: footer}"></div>

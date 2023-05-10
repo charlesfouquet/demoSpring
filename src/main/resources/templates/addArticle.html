@@ -1,0 +1,28 @@
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1 class="text-center mt-5">Ajout d'article</h1>
+<h3 class="text-center">Ajoutez un article à la liste des articles</h3>
+
+<form class="w-25 mx-auto" method="post" th:object="${article}" th:action="${#ctx.springRequestContext.requestUri}" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title" class="form-control-label">Titre</label>
+        <input type="text" class="form-control" id="title" th:field="*{title}" />
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+    </div>
+    <div class="form-group">
+        <label for="content" class="form-control-label">Contenu</label>
+        <textarea class="form-control" id="content" th:field="*{content}"></textarea>
+        <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+    </div>
+    <div class="input-group my-3">
+        <input type="hidden" class="form-control" id="photo" th:field="*{photo}" />
+        <input type="file" class="form-control" id="image" name="image" />
+        <label class="input-group-text" for="image" >Upload</label>
+    </div>
+    <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
+    <div class="text-center">
+        <input type="submit" value="Je poste mon article" class="btn btn-success mt-3" />
+    </div>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
